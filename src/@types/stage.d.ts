@@ -6,4 +6,5 @@ export interface IStageProvider {
 
 export type StageContextType = {
   stage: KonvaNodeComponent;
+  scale: number;
 };

@@ -9,15 +9,18 @@ export interface ISkillLine {
 
 export interface ISkill {
   id: string;
-  x?: number;
-  y?: number;
+  name?: string;
+  x: number;
+  y: number;
   connections?: string[];
-  lines?: ISkillLine[];
+  lines?: number[];
 }
 
 export type SkillsContextType = {
   skills: ISkill[];
   currentSkill: ISkill | null;
-  updateSkills: (id: number) => void;
+  updateSkill: ({ id: number, x: number, y: number }) => void;
   addSkill: ({ id, connections }: ISkill) => void;
+  loadSkills: (skills: ISkill[]) => void;
+  removeSkill: (id: string) => void;
 };

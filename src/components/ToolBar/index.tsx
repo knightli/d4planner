@@ -7,7 +7,7 @@ import { Modal } from "../Modal";
 import { SkillSearch } from "../SkillSearch";
 
 const ToolBar = () => {
-  const { addSkill } = useSkills() as SkillsContextType;
+  const { addSkill, skills } = useSkills() as SkillsContextType;
   const [modal, setModal] = useState(false);
 
   const handleModalSkill = () => {
@@ -15,8 +15,19 @@ const ToolBar = () => {
   };
 
   const handleAddSkill = (result: any) => {
-    addSkill({ id: `skill_${Math.random()}`, connections: [] });
+    addSkill({
+      id: `skill_${Math.random()}`,
+      connections: [],
+      name: result.name,
+      x: 150,
+      y: 150,
+      lines: [],
+    });
     setModal(false);
+  };
+
+  const handleSaveTree = () => {
+    console.log(JSON.stringify(skills));
   };
 
   const buttonStyle = {
@@ -28,6 +39,12 @@ const ToolBar = () => {
     cursor: "pointer",
     borderRadius: 6,
     border: "1px solid #2ECC71",
+  };
+
+  const buttonStyleSave = {
+    ...buttonStyle,
+    color: "#A4BE7B",
+    borderColor: "#A4BE7B",
   };
 
   const buttonStyleBaba = {
@@ -85,13 +102,15 @@ const ToolBar = () => {
             borderRadius: 6,
             border: 0,
             display: "flex",
-            flexDirection: "column",
           }}
         >
           <button style={buttonStyle} onClick={handleModalSkill}>
-            Select Skill
+            Add Skill
           </button>
-          <hr style={{ width: "100%", border: "1px solid #333333" }}></hr>
+          <button style={buttonStyleSave} onClick={handleSaveTree}>
+            Save Tree
+          </button>
+          <hr style={{ border: "1px solid #333333" }}></hr>
           <button style={buttonStyleBaba}>Barbarian</button>
           <button style={buttonStyleDruid}>Druid</button>
           <button style={buttonStyleNecro}>Necromancer</button>

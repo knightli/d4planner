@@ -8,25 +8,23 @@ const SkillsContext = createContext<SkillsContextType | null>(null);
 const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [currentSkill, setCurrentSkill] = useState<ISkill | null>(null);
-  const { stage } = useStage() as StageContextType;
 
-  const updateSkills = (id: number) => {
-    const skill: ISkill = {
-      id: "skill_0",
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      connections: [],
-      lines: [],
-    };
-
-    setSkills([...skills, skill]);
+  const updateSkill = ({ id, x, y }: ISkill) => {
+    const updatedSkills = skills.map((skill) => {
+      if (skill.id === id) {
+        return { ...skill, x, y };
+      }
+      return skill;
+    });
+    setSkills(updateLines(updatedSkills));
   };
 
-  const addSkill = ({ id, connections }: ISkill) => {
+  const addSkill = ({ id, connections, name, lines }: ISkill) => {
     const skill: ISkill = {
       id,
-      x: 90,
-      y: 90,
+      name,
+      x: 150,
+      y: 150,
       connections,
       lines: [],
     };
@@ -35,9 +33,44 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     setSkills([...skills, skill]);
   };
 
+  const updateLines = (skills: ISkill[]): ISkill[] => {
+    const LINE_OFFSET = 30;
+    skills.map((skill: ISkill) => {
+      skill.lines = [];
+      skill.connections?.map((connection) => {
+        const connectedSkill = skills.find((skill) => skill.id === connection);
+        if (connectedSkill) {
+          skill.lines = [
+            skill.x + LINE_OFFSET,
+            skill.y + LINE_OFFSET,
+            connectedSkill.x + LINE_OFFSET,
+            connectedSkill.y + LINE_OFFSET,
+          ];
+        }
+      });
+    });
+    return skills;
+  };
+
+  const loadSkills = (skills: ISkill[]) => {
+    setSkills(updateLines(skills));
+  };
+
+  const removeSkill = (id: string) => {
+    const updatedSkills = skills.filter((skill) => skill.id !== id);
+    setSkills(updateLines(updatedSkills));
+  };
+
   return (
     <SkillsContext.Provider
-      value={{ skills, currentSkill, updateSkills, addSkill }}
+      value={{
+        skills,
+        currentSkill,
+        updateSkill,
+        addSkill,
+        loadSkills,
+        removeSkill,
+      }}
     >
       {children}
     </SkillsContext.Provider>

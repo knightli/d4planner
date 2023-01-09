@@ -24,6 +24,9 @@ const stageZoom = (e: any) => {
     };
 
     stage.position(newPos);
+    stage.batchDraw();
+
+    return stage;
   }
 };
 
