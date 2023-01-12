@@ -15,14 +15,15 @@ const ToolBar = () => {
   };
 
   const handleAddSkill = (result: any) => {
-    addSkill({
+    const skill = {
+      ...result,
       id: `skill_${Math.random()}`,
       connections: [],
-      name: result.name,
       x: 150,
       y: 150,
       lines: [],
-    });
+    };
+    addSkill(skill);
     setModal(false);
   };
 
@@ -82,7 +83,7 @@ const ToolBar = () => {
   };
 
   return (
-    <Layer>
+    <Layer listening={false}>
       <Html
         divProps={{
           style: {

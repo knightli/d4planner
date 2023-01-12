@@ -11,30 +11,35 @@ const Lines = () => {
   const stageHeight = window.innerHeight;
 
   return (
-    <Layer>
-      <Group
-        scaleX={scale}
-        scaleY={scale}
-        width={stageWidth}
-        height={stageHeight}
-      >
-        {skills &&
-          skills.map((skill: ISkill) => (
-            <Group key={`lines-group.${skill.id}`}>
-              <Line
-                key={`line_${skill.id}`}
-                id={`line_${skill.id}`}
-                stroke="#E14D2A"
-                strokeWidth={3}
-                lineCap="round"
-                lineJoin="round"
-                points={skill.lines}
-                tension={1}
-              />
-            </Group>
-          ))}
-      </Group>
-    </Layer>
+    <Group
+      scaleX={scale}
+      scaleY={scale}
+      width={stageWidth}
+      height={stageHeight}
+    >
+      {skills &&
+        skills.map((skill: ISkill) => (
+          <Group key={`lines-group.${skill.id}`}>
+            {skill.lines?.map(
+              (line, index) =>
+                line.coords && (
+                  <Line
+                    key={`line_${index}_${skill.id}`}
+                    id={`line_${index}_${skill.id}`}
+                    stroke="#E14D2A"
+                    strokeWidth={3}
+                    lineCap="round"
+                    lineJoin="round"
+                    points={line.coords}
+                    tension={1}
+                    perfectDrawEnabled={false}
+                    shadowForStrokeEnabled={false}
+                  />
+                )
+            )}
+          </Group>
+        ))}
+    </Group>
   );
 };
 

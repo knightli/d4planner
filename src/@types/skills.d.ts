@@ -10,17 +10,24 @@ export interface ISkillLine {
 export interface ISkill {
   id: string;
   name?: string;
+  points?: number;
+  maxPoints?: number;
+  description?: string;
   x: number;
   y: number;
   connections?: string[];
-  lines?: number[];
+  lines?: ISkillLine[];
 }
 
 export type SkillsContextType = {
   skills: ISkill[];
-  currentSkill: ISkill | null;
-  updateSkill: ({ id: number, x: number, y: number }) => void;
+  updateSkillPosition: ({ id: number, x: number, y: number }) => void;
   addSkill: ({ id, connections }: ISkill) => void;
   loadSkills: (skills: ISkill[]) => void;
   removeSkill: (id: string) => void;
+  addLinkSkill: (selectedSkillId: string, id: string) => void;
+  handleSelectSkill: (skill: ISkill) => void;
+  selectedSkill: ISkill | null;
+  addSkillPoint: (id: string) => void;
+  removeSkillPoint: (id: string) => void;
 };
