@@ -2,43 +2,25 @@ import Fuse from "fuse.js";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { barbarian } from "../../data/barbarian";
 
-type SkillSearchType = {
-  onSelect: any;
+type Props = {
+  onSelect: (result: any) => void;
 };
 
-const SkillSearch: FC<SkillSearchType> = ({ onSelect }) => {
-  const [query, updateQuery] = useState("");
-  const [isComponentVisible, setIsComponentVisible] = useState(true);
+const SkillSearch: FC<Props> = ({ onSelect }) => {
+  const [query, setQuery] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const search = new Fuse(barbarian, { keys: ["name"], minMatchCharLength: 3 });
+  const results = query ? search.search(query).map(({ item }) => item) : [];
 
-  const ref = useRef(null);
-
-  let characterResults = null;
-  const list = barbarian;
-
-  const search = new Fuse(list, {
-    includeScore: true,
-    minMatchCharLength: 3,
-    keys: ["name"],
-  });
-
-  let results = search.search("");
-  characterResults = results.map((result: any) => result.item);
-  results = search.search(query, { limit: 5 });
-  characterResults = query
-    ? results.map((character: any) => character.item)
-    : null;
-
-  const onSearch = (e: React.FormEvent<HTMLInputElement>) => {
-    updateQuery(e.currentTarget.value);
+  const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    setQuery(e.currentTarget.value);
+    setIsVisible(true);
   };
 
-  const onFocus = (e: any) => {
-    setIsComponentVisible(true);
-  };
-
-  const handleClickOutside = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setIsComponentVisible(false);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setIsVisible(false);
     }
   };
 
@@ -50,33 +32,18 @@ const SkillSearch: FC<SkillSearchType> = ({ onSelect }) => {
   }, []);
 
   return (
-    <>
-      <div ref={ref} className="search-form">
-        <input
-          type="text"
-          name="search-input"
-          id="search-input"
-          onChange={onSearch}
-          onFocus={onFocus}
-        />
-        {characterResults && isComponentVisible && (
-          <div className="search-results">
-            {characterResults.map((result: any, index: any) => {
-              return (
-                <div
-                  key={`searchResult${index}`}
-                  onClick={() => {
-                    onSelect(result);
-                  }}
-                >
-                  {result.name}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </>
+    <div ref={ref} className="search-form">
+      <input type="text" onChange={handleSearch} />
+      {isVisible && (
+        <div className="search-results">
+          {results.map((result, index) => (
+            <div key={`searchResult${index}`} onClick={() => onSelect(result)}>
+              {result.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
