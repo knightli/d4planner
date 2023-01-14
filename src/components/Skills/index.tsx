@@ -123,9 +123,11 @@ const Skills = () => {
                 }}
                 onDragEnd={(e) => {
                   handleDragStart(e, stage);
+                  setSkillToolTip({ skill });
                 }}
                 onDragMove={(e) => {
                   handleDragStart(e, stage);
+                  setSkillToolTip(null);
                 }}
               >
                 <Group
