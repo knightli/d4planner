@@ -7,12 +7,12 @@ import "./App.css";
 const App = () => {
   return (
     <div className="App">
-      <StageProvider>
-        <SkillsProvider>
-          <ToolBar />
+      <SkillsProvider>
+        <StageProvider>
           <Skills />
-        </SkillsProvider>
-      </StageProvider>
+        </StageProvider>
+        <ToolBar />
+      </SkillsProvider>
     </div>
   );
 };
