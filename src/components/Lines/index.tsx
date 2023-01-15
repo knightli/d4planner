@@ -1,4 +1,4 @@
-import { Group, Layer, Line, Rect, Text } from "react-konva";
+import { Group, Line } from "react-konva";
 import { useSkills } from "../../context/SkillsContext";
 import { ISkill, SkillsContextType } from "../../@types/skills";
 import { StageContextType } from "../../@types/stage";

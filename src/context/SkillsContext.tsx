@@ -97,7 +97,6 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
   };
 
   const addSkillPoint = (id: string) => {
-    console.log("click");
     const updatedSkills = skills.map((skill) => {
       if (skill.id === id) {
         if (skill.points! < skill.maxPoints!) {

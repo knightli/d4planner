@@ -19,7 +19,7 @@ const Skill = (props: Props) => {
   const { stage } = useStage() as StageContextType;
   const { updateSkillPosition } = useSkills() as SkillsContextType;
 
-  const handleDragStart = (e: any, stage: any) => {
+  const handleDragStart = (e: any) => {
     const id = e.target.id();
     const x = e.target.x();
     const y = e.target.y();
@@ -37,14 +37,14 @@ const Skill = (props: Props) => {
         id={skill.id}
         draggable
         onDragStart={(e) => {
-          handleDragStart(e, stage);
+          handleDragStart(e);
         }}
         onDragEnd={(e) => {
-          handleDragStart(e, stage);
+          handleDragStart(e);
           toolTip({ skill });
         }}
         onDragMove={(e) => {
-          handleDragStart(e, stage);
+          handleDragStart(e);
           toolTip(null);
         }}
       >
