@@ -3,7 +3,7 @@ import { SkillsContextType } from "../../@types/skills";
 import { useState } from "react";
 import { Modal } from "../Modal";
 import { SkillSearch } from "../SkillSearch";
-import { compressToEncodedURIComponent } from "lz-string";
+import { compressSkills } from "../../helpers/skills";
 
 import {
   buttonStyle,
@@ -37,7 +37,7 @@ const ToolBar = () => {
   };
 
   const handleSaveTree = () => {
-    console.log(compressToEncodedURIComponent(JSON.stringify(skills)));
+    console.log(compressSkills(skills));
   };
 
   const AddSkillModal = () => {

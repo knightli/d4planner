@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Lines } from "../Lines";
 import { SkillToolTip, skillToolTipType } from "./components/SkillTooltip";
 import { Skill } from "./components/Skill";
-import { decompressFromEncodedURIComponent } from "lz-string";
+import { decompressSkills } from "../../helpers/skills";
 
 const Skills = () => {
   const { skills, loadSkills } = useSkills() as SkillsContextType;
@@ -19,12 +19,7 @@ const Skills = () => {
   useEffect(() => {
     (async () => {
       const { tree } = await import("../../data/tree/barbarian");
-      const decompressed = decompressFromEncodedURIComponent(tree);
-
-      if (decompressed) {
-        const parsed = JSON.parse(decompressed);
-        loadSkills(parsed);
-      }
+      loadSkills(decompressSkills(tree));
     })();
   }, []);
 
