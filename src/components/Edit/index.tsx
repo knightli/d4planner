@@ -1,10 +1,10 @@
 import { Group } from "react-konva";
 import { ISkill, SkillsContextType } from "../../@types/skills";
-import { useSkills } from "../../context/SkillsContext";
+import { useSkills } from "../../context/Skills";
 import useImage from "use-image";
 import { useRef, useMemo } from "react";
-import { Trash } from "./Trash";
-import { LinkSkill } from "./LinkSkill";
+import { Trash } from "./components/Trash";
+import { LinkSkill } from "./components/LinkSkill";
 
 type EditProps = {
   skill: ISkill;

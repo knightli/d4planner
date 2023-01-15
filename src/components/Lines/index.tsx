@@ -1,8 +1,8 @@
 import { Group, Line } from "react-konva";
-import { useSkills } from "../../context/SkillsContext";
+import { useSkills } from "../../context/Skills";
 import { ISkill, SkillsContextType } from "../../@types/skills";
 import { StageContextType } from "../../@types/stage";
-import { useStage } from "../../context/StageContext";
+import { useStage } from "../../context/Stage";
 
 const Lines = () => {
   const { skills } = useSkills() as SkillsContextType;

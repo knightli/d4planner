@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { StageContextType, IStageProvider } from "../@types/stage";
+import { StageContextType, IStageProvider } from "../../@types/stage";
 import { Stage } from "react-konva";
 
 const StageContext = createContext<StageContextType | null>(null);

@@ -1,5 +1,5 @@
 import { FC, createContext, useContext, useState } from "react";
-import { ISkill, ISkillProvider, SkillsContextType } from "../@types/skills";
+import { ISkill, ISkillProvider, SkillsContextType } from "../../@types/skills";
 
 const SkillsContext = createContext<SkillsContextType | null>(null);
 

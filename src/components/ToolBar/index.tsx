@@ -1,4 +1,4 @@
-import { useSkills } from "../../context/SkillsContext";
+import { useSkills } from "../../context/Skills";
 import { SkillsContextType } from "../../@types/skills";
 import { useState } from "react";
 import { Modal } from "../Modal";

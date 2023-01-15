@@ -1,8 +1,8 @@
 import { Group } from "react-konva";
 import { ISkill, SkillsContextType } from "../../../@types/skills";
-import { useStage } from "../../../context/StageContext";
+import { useStage } from "../../../context/Stage";
 import { StageContextType } from "../../../@types/stage";
-import { useSkills } from "../../../context/SkillsContext";
+import { useSkills } from "../../../context/Skills";
 import { Edit } from "../../Edit";
 import { skillToolTipType } from "./SkillTooltip";
 import { SkillPoints } from "./SkillPoints";

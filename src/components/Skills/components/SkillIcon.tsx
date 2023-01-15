@@ -1,7 +1,7 @@
 import { Rect } from "react-konva";
 import { ISkill, SkillsContextType } from "../../../@types/skills";
 import { FC } from "react";
-import { useSkills } from "../../../context/SkillsContext";
+import { useSkills } from "../../../context/Skills";
 
 type Props = {
   skill: ISkill;

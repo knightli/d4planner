@@ -1,7 +1,7 @@
-import { SkillsProvider } from "./context/SkillsContext";
+import { SkillsProvider } from "./context/Skills";
 import { Skills } from "./components/Skills";
 import { ToolBar } from "./components/ToolBar";
-import { StageProvider } from "./context/StageContext";
+import { StageProvider } from "./context/Stage";
 import "./App.css";
 
 const App = () => {

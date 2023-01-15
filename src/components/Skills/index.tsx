@@ -1,7 +1,7 @@
 import { Group, Layer } from "react-konva";
-import { useSkills } from "../../context/SkillsContext";
+import { useSkills } from "../../context/Skills";
 import { ISkill, SkillsContextType } from "../../@types/skills";
-import { useStage } from "../../context/StageContext";
+import { useStage } from "../../context/Stage";
 import { StageContextType } from "../../@types/stage";
 import { useEffect, useState } from "react";
 import { tree } from "../../data/tree";

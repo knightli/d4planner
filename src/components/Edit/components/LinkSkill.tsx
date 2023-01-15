@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Image } from "react-konva";
-import { useSkills } from "../../context/SkillsContext";
-import { SkillsContextType } from "../../@types/skills";
+import { useSkills } from "../../../context/Skills";
+import { SkillsContextType } from "../../../@types/skills";
 
 type LinkSkillProps = {
   skill: any;
