@@ -4,10 +4,10 @@ import { ISkill, SkillsContextType } from "../../@types/skills";
 import { useStage } from "../../context/Stage";
 import { StageContextType } from "../../@types/stage";
 import { useEffect, useState } from "react";
-import { tree } from "../../data/tree";
 import { Lines } from "../Lines";
 import { SkillToolTip, skillToolTipType } from "./components/SkillTooltip";
 import { Skill } from "./components/Skill";
+import { decompressFromEncodedURIComponent } from "lz-string";
 
 const Skills = () => {
   const { skills, loadSkills } = useSkills() as SkillsContextType;
@@ -17,7 +17,15 @@ const Skills = () => {
   const stageHeight = window.innerHeight;
 
   useEffect(() => {
-    loadSkills(tree);
+    (async () => {
+      const { tree } = await import("../../data/tree/barbarian");
+      const decompressed = decompressFromEncodedURIComponent(tree);
+
+      if (decompressed) {
+        const parsed = JSON.parse(decompressed);
+        loadSkills(parsed);
+      }
+    })();
   }, []);
 
   return (
