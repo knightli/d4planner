@@ -1,6 +1,7 @@
 import Fuse from "fuse.js";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { barbarian } from "../../data/barbarian";
+import { useClass } from "../../context/Class";
+import { ClassContextType } from "../../@types/class";
 
 type Props = {
   onSelect: (result: any) => void;
@@ -8,10 +9,11 @@ type Props = {
 
 const SkillSearch: FC<Props> = ({ onSelect }) => {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [classData, setClassData] = useState<any[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const search = new Fuse(barbarian, { keys: ["name"], minMatchCharLength: 3 });
-  const results = query ? search.search(query).map(({ item }) => item) : [];
+  const { className } = useClass() as ClassContextType;
 
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
     setQuery(e.currentTarget.value);
@@ -23,6 +25,22 @@ const SkillSearch: FC<Props> = ({ onSelect }) => {
       setIsVisible(false);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await import(`../../data/${className}.ts`);
+      setClassData(data);
+    })();
+  }, [className]);
+
+  useEffect(() => {
+    const search = new Fuse(classData, {
+      keys: ["name"],
+      minMatchCharLength: 3,
+    });
+    const results = query ? search.search(query).map(({ item }) => item) : [];
+    setResults(results);
+  }, [query]);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);

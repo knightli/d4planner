@@ -1,9 +1,9 @@
 import { useSkills } from "../../context/Skills";
-import { SkillsContextType } from "../../@types/skills";
+import { Shared, SkillsContextType } from "../../@types/skills";
 import { useState } from "react";
 import { Modal } from "../Modal";
 import { SkillSearch } from "../SkillSearch";
-import { compressSkills } from "../../helpers/skills";
+import { compressShareSkills, compressSkills } from "../../helpers/skills";
 
 import {
   buttonStyle,
@@ -14,9 +14,13 @@ import {
   buttonStyleSave,
   buttonStyleSorcer,
 } from "./styles";
+import { ClassContextType } from "../../@types/class";
+import { useClass } from "../../context/Class";
+import { cleanHashUrl } from "../../helpers/url";
 
 const ToolBar = () => {
   const { addSkill, skills } = useSkills() as SkillsContextType;
+  const { setClassName, className } = useClass() as ClassContextType;
   const [modal, setModal] = useState(false);
 
   const handleModalSkill = () => {
@@ -37,12 +41,35 @@ const ToolBar = () => {
   };
 
   const handleSaveTree = () => {
-    console.log(compressSkills(skills));
+    navigator.clipboard.writeText(compressSkills(skills));
+  };
+
+  const handleShareTree = () => {
+    const selectedSkills = skills
+      .filter((skill) => skill.points! > 0)
+      .map((skill) => {
+        return {
+          id: skill.id,
+          points: skill.points,
+        };
+      }) as [];
+
+    if (selectedSkills) {
+      const share: Shared = {
+        className,
+        skills: selectedSkills,
+      };
+      window.location.hash = compressShareSkills(share);
+      navigator.clipboard.writeText(window.location.href);
+    }
   };
 
   const AddSkillModal = () => {
     return (
-      <Modal title="Select Skill" onClose={() => setModal(false)}>
+      <Modal
+        title={`${className.toUpperCase()} - Select Skill`}
+        onClose={() => setModal(false)}
+      >
         <SkillSearch onSelect={handleAddSkill} />
       </Modal>
     );
@@ -74,9 +101,28 @@ const ToolBar = () => {
         <button style={buttonStyleSave} onClick={handleSaveTree}>
           Save Tree
         </button>
+        <button style={buttonStyleSave} onClick={handleShareTree}>
+          Share Tree
+        </button>
         <hr style={{ border: "1px solid #333333" }}></hr>
-        <button style={buttonStyleBaba}>Barbarian</button>
-        <button style={buttonStyleDruid}>Druid</button>
+        <button
+          style={buttonStyleBaba}
+          onClick={() => {
+            cleanHashUrl();
+            setClassName("barbarian");
+          }}
+        >
+          Barbarian
+        </button>
+        <button
+          style={buttonStyleDruid}
+          onClick={() => {
+            cleanHashUrl();
+            setClassName("druid");
+          }}
+        >
+          Druid
+        </button>
         <button style={buttonStyleNecro}>Necromancer</button>
         <button style={buttonStyleRogue}>Rogue</button>
         <button style={buttonStyleSorcer}>Sorcer</button>

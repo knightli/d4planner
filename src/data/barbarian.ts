@@ -1,4 +1,4 @@
-const barbarian = [
+const data = [
   { name: "Basic", maxPoints: 0, description: "" },
   {
     name: "Bash",
@@ -45,4 +45,4 @@ const barbarian = [
   },
 ];
 
-export { barbarian };
+export { data };

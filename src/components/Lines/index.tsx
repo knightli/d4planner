@@ -26,8 +26,8 @@ const Lines = () => {
                   <Line
                     key={`line_${index}_${skill.id}`}
                     id={`line_${index}_${skill.id}`}
-                    stroke="#E14D2A"
-                    strokeWidth={3}
+                    stroke={skill.points! > 0 ? "#ff0000" : "#E14D2A"}
+                    strokeWidth={skill.points! > 0 ? 6 : 3}
                     lineCap="round"
                     lineJoin="round"
                     points={line.coords}

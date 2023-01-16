@@ -1,5 +1,10 @@
 import { FC, createContext, useContext, useState } from "react";
-import { ISkill, ISkillProvider, SkillsContextType } from "../../@types/skills";
+import {
+  ISkill,
+  ISkillProvider,
+  SharedSkills,
+  SkillsContextType,
+} from "../../@types/skills";
 
 const SkillsContext = createContext<SkillsContextType | null>(null);
 
@@ -62,8 +67,13 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     return skills;
   };
 
-  const loadSkills = (skills: ISkill[]) => {
-    setSkills(updateLines(skills));
+  const loadSkills = (skills: ISkill[], sharedSkills?: SharedSkills[]) => {
+    if (sharedSkills) {
+      const mergedSkills = mergeSharedSkills(skills, sharedSkills);
+      setSkills(updateLines(mergedSkills));
+    } else {
+      setSkills(updateLines(skills));
+    }
   };
 
   const removeSkill = (id: string) => {
@@ -119,6 +129,23 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
       return skill;
     });
     setSkills(updateLines(updatedSkills));
+  };
+
+  const mergeSharedSkills = (
+    skills: ISkill[],
+    sharedSkills: SharedSkills[]
+  ) => {
+    return skills.map((skill) => {
+      if (sharedSkills.find((sharedSkill) => sharedSkill.id === skill.id)) {
+        const sharedSkill = sharedSkills.find(
+          (sharedSkill) => sharedSkill.id === skill.id
+        );
+        if (sharedSkill) {
+          skill.points = sharedSkill.points;
+        }
+      }
+      return skill;
+    });
   };
 
   return (

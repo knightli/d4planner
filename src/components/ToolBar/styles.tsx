@@ -17,14 +17,14 @@ export const buttonStyleSave = {
 
 export const buttonStyleBaba = {
   ...buttonStyle,
-  color: "#a52a2a",
-  borderColor: "#a52a2a",
+  color: "#e31f26",
+  borderColor: "#e31f26",
 };
 
 export const buttonStyleDruid = {
   ...buttonStyle,
-  color: "#7c4848",
-  borderColor: "#7c4848",
+  color: "#56f131",
+  borderColor: "#56f131",
 };
 
 export const buttonStyleNecro = {
@@ -35,8 +35,8 @@ export const buttonStyleNecro = {
 
 export const buttonStyleRogue = {
   ...buttonStyle,
-  color: "#556b2f",
-  borderColor: "#556b2f",
+  color: "#8aeba3",
+  borderColor: "#8aeba3",
 };
 
 export const buttonStyleSorcer = {
