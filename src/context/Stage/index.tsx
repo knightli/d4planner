@@ -41,6 +41,7 @@ const StageProvider: FC<IStageProvider> = ({ children }) => {
         ref={stageRef}
         onWheel={handleWheel}
         draggable
+        onContextMenu={(e) => e.evt.preventDefault()}
       >
         {children}
       </Stage>

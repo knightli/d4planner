@@ -5,6 +5,14 @@ const data = [
     maxPoints: 5,
     description:
       "Generate Fury: 10 Lucky Hit Chance: 50% Bash the enemy with your weapon, dealing 31% damage. After bashing enemies 4 times, your next Bash will Stun for 1.25 seconds, this increases to 2 seconds if using a Two-Handed weapon.",
+    values: [
+      [10, 50, 31, 4, 1.25, 2],
+      [12, 51, 35, 4, 1.3, 2],
+      [12, 51, 35, 4, 1.3, 2],
+      [12, 51, 35, 4, 1.3, 2],
+      [12, 51, 35, 4, 1.3, 2],
+    ],
+    type: ["principal", "melee"],
   },
   {
     name: "Enhanced Bash",

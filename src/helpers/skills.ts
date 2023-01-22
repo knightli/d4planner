@@ -2,7 +2,7 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
-import { ISkill, SharedSkill } from "../@types/skills";
+import { ISkill, Shared } from "../@types/skills";
 
 export const getSkills = (skills: ISkill[], skillsIds: string[]): ISkill[] => {
   return skills.filter((skill) => skillsIds.includes(skill.id));
@@ -21,13 +21,11 @@ export const decompressSkills = (compressedSkills: string): ISkill[] => {
   return JSON.parse(decompressedSkills);
 };
 
-export const compressShareSkills = (skills: SharedSkill): string => {
+export const compressShareSkills = (skills: Shared): string => {
   return compressToEncodedURIComponent(JSON.stringify(skills));
 };
 
-export const decompressShareSkills = (
-  compressedSkills: string
-): SharedSkill => {
+export const decompressShareSkills = (compressedSkills: string): Shared => {
   const decompressedSkills =
     decompressFromEncodedURIComponent(compressedSkills);
   if (!decompressedSkills) {

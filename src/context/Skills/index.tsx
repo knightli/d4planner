@@ -110,24 +110,65 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     const updatedSkills = skills.map((skill) => {
       if (skill.id === id) {
         if (skill.points! < skill.maxPoints!) {
-          return { ...skill, points: skill.points! + 1 };
+          const allowed = skill.connections?.every((connectionId) => {
+            const connection = skills.find((s) => s.id === connectionId);
+            if (connection) {
+              return connection.maxPoints === 0 || connection.points! > 0;
+            }
+            return false;
+          });
+
+          if (allowed) {
+            return { ...skill, points: skill.points! + 1 };
+          }
         }
       }
-
       return skill;
     });
     setSkills(updateLines(updatedSkills));
   };
 
-  const removeSkillPoint = (id: string) => {
-    const updatedSkills = skills.map((skill) => {
-      if (skill.id === id) {
-        if (skill.points! > 0) {
-          return { ...skill, points: skill.points! - 1 };
+  const resetChildSkillPoints = (id: string, seek?: ISkill[]): ISkill[] => {
+    let updatedSkills = seek || [...skills];
+    let connectedSkills: ISkill[] = [];
+    let allowSeek = false;
+
+    if (!seek) {
+      updatedSkills = updatedSkills.map((skill) => {
+        if (skill.id === id) {
+          const points = skill.points! > 0 ? skill.points! - 1 : 0;
+          if (points === 0) {
+            allowSeek = true;
+          }
+          return { ...skill, points };
         }
+        return skill;
+      });
+    } else {
+      allowSeek = true;
+    }
+
+    if (allowSeek) {
+      updatedSkills = updatedSkills.map((skill) => {
+        if (skill.connections?.includes(id)) {
+          connectedSkills.push(skill);
+          return { ...skill, points: 0 };
+        }
+        return skill;
+      });
+
+      if (connectedSkills.length > 0) {
+        connectedSkills.forEach((skill) => {
+          updatedSkills = resetChildSkillPoints(skill.id, updatedSkills);
+        });
       }
-      return skill;
-    });
+    }
+
+    return updatedSkills;
+  };
+
+  const removeSkillPoint = (id: string) => {
+    const updatedSkills = resetChildSkillPoints(id);
     setSkills(updateLines(updatedSkills));
   };
 
