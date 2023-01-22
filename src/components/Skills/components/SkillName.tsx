@@ -1,16 +1,21 @@
 import { FC } from "react";
 import { Text } from "react-konva";
+import { ISkill } from "../../../@types/skills";
 
-type Prop = {
-  name: string;
+type Props = {
+  skill: ISkill;
 };
 
-const SkillName: FC<Prop> = ({ name }) => {
+const SkillName: FC<Props> = ({ skill }) => {
+  const x = skill.maxPoints === 0 ? -15 : 0;
+  const y = skill.maxPoints === 0 ? -10 : 70;
+
   return (
     <Text
-      text={name}
+      text={skill.name}
       fontSize={14}
-      y={65}
+      y={y}
+      x={x}
       fill={"#DCB166"}
       shadowColor="black"
       shadowBlur={5}
@@ -18,7 +23,6 @@ const SkillName: FC<Prop> = ({ name }) => {
       shadowOffsetY={2}
       shadowForStrokeEnabled={false}
       perfectDrawEnabled={false}
-      padding={10}
       lineHeight={1.5}
     />
   );

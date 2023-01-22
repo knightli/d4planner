@@ -1,5 +1,7 @@
 const data = [
-  { name: "Basic", maxPoints: 0, description: "" },
+  { name: "Basic", maxPoints: 0, description: "", requiredPoints: 0 },
+  { name: "Core", maxPoints: 0, description: "", requiredPoints: 2 },
+  { name: "Defensive", maxPoints: 0, description: "", requiredPoints: 6 },
   {
     name: "Bash",
     maxPoints: 5,

@@ -46,15 +46,33 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
   };
 
   const updateLines = (skills: ISkill[]): ISkill[] => {
-    const LINE_OFFSET = 30;
+    let X1_OFFSET = 30;
+    let Y1_OFFSET = 30;
+    let X2_OFFSET = 30;
+    let Y2_OFFSET = 30;
+
     skills.map((skill: ISkill) => {
       const lines = skill.connections?.map((connectionId) => {
         const connection = skills.find((s) => s.id === connectionId);
         if (connection) {
-          const x1 = skill.x + LINE_OFFSET;
-          const y1 = skill.y + LINE_OFFSET;
-          const x2 = connection.x + LINE_OFFSET;
-          const y2 = connection.y + LINE_OFFSET;
+          if (skill.maxPoints! === 0) {
+            const x1 = skill.x;
+            const y1 = skill.y;
+            const x2 = connection.x;
+            const y2 = connection.y;
+            return { coords: [x1, y1, x2, y2], id: connectionId };
+          }
+
+          const x1 = skill.x + X1_OFFSET;
+          const y1 = skill.y + Y1_OFFSET;
+          const x2 =
+            connection.maxPoints! === 0
+              ? connection.x
+              : connection.x + X2_OFFSET;
+          const y2 =
+            connection.maxPoints! === 0
+              ? connection.y
+              : connection.y + Y2_OFFSET;
           return { coords: [x1, y1, x2, y2], id: connectionId };
         }
         return { coords: [], id: "" };
@@ -77,7 +95,18 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
   };
 
   const removeSkill = (id: string) => {
-    const updatedSkills = skills.filter((skill) => skill.id !== id);
+    const updatedSkills = skills
+      .filter((skill) => skill.id !== id)
+      .map((skill) => {
+        if (skill.connections?.includes(id)) {
+          return {
+            ...skill,
+            connections: skill.connections?.filter((c) => c !== id),
+          };
+        }
+        return skill;
+      });
+
     setSkills(updateLines(updatedSkills));
   };
 
