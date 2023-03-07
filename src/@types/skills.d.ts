@@ -12,7 +12,9 @@ export interface ISkill {
   name?: string;
   points?: number;
   maxPoints?: number;
+  requiredPoints?: number;
   description?: string;
+  damageType?: number;
   x: number;
   y: number;
   connections?: string[];
@@ -30,6 +32,8 @@ export type SkillsContextType = {
   selectedSkill: ISkill | null;
   addSkillPoint: (id: string) => void;
   removeSkillPoint: (id: string) => void;
+  points: number;
+  updatePoints: () => void;
 };
 
 export type SharedSkills = {

@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useState } from "react";
+import { FC, createContext, useContext, useState, useEffect } from "react";
 import {
   ISkill,
   ISkillProvider,
@@ -9,6 +9,7 @@ import {
 const SkillsContext = createContext<SkillsContextType | null>(null);
 
 const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
+  const [points, setPoints] = useState<number>(0);
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [selectedSkill, setSelectedSkill] = useState<ISkill | null>(null);
 
@@ -28,6 +29,8 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     name,
     lines = [],
     maxPoints,
+    requiredPoints,
+    damageType,
     points = 0,
     description = "",
   }: ISkill) => {
@@ -36,6 +39,8 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
       name,
       points,
       maxPoints,
+      requiredPoints,
+      damageType,
       description,
       x: 150,
       y: 150,
@@ -55,7 +60,7 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
       const lines = skill.connections?.map((connectionId) => {
         const connection = skills.find((s) => s.id === connectionId);
         if (connection) {
-          if (skill.maxPoints! === 0) {
+          if (skill.requiredPoints! !== undefined) {
             const x1 = skill.x;
             const y1 = skill.y;
             const x2 = connection.x;
@@ -66,11 +71,11 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
           const x1 = skill.x + X1_OFFSET;
           const y1 = skill.y + Y1_OFFSET;
           const x2 =
-            connection.maxPoints! === 0
+            connection.requiredPoints! !== undefined
               ? connection.x
               : connection.x + X2_OFFSET;
           const y2 =
-            connection.maxPoints! === 0
+            connection.requiredPoints! !== undefined
               ? connection.y
               : connection.y + Y2_OFFSET;
           return { coords: [x1, y1, x2, y2], id: connectionId };
@@ -142,12 +147,16 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
           const allowed = skill.connections?.every((connectionId) => {
             const connection = skills.find((s) => s.id === connectionId);
             if (connection) {
-              return connection.maxPoints === 0 || connection.points! > 0;
+              return (
+                connection.requiredPoints !== undefined ||
+                connection.points! > 0
+              );
             }
             return false;
           });
 
           if (allowed) {
+            setPoints(points + 1);
             return { ...skill, points: skill.points! + 1 };
           }
         }
@@ -155,6 +164,7 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
       return skill;
     });
     setSkills(updateLines(updatedSkills));
+    updatePoints();
   };
 
   const resetChildSkillPoints = (id: string, seek?: ISkill[]): ISkill[] => {
@@ -165,11 +175,11 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     if (!seek) {
       updatedSkills = updatedSkills.map((skill) => {
         if (skill.id === id) {
-          const points = skill.points! > 0 ? skill.points! - 1 : 0;
-          if (points === 0) {
+          const current_points = skill.points! > 0 ? skill.points! - 1 : 0;
+          if (current_points === 0) {
             allowSeek = true;
           }
-          return { ...skill, points };
+          return { ...skill, points: current_points };
         }
         return skill;
       });
@@ -212,10 +222,19 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
         );
         if (sharedSkill) {
           skill.points = sharedSkill.points;
+          setPoints(points + skill.points);
         }
       }
       return skill;
     });
+  };
+
+  const updatePoints = () => {
+    let currentPoints = 0;
+    skills.map((skill) => {
+      if (skill.points) currentPoints += skill.points;
+    });
+    setPoints(currentPoints);
   };
 
   return (
@@ -231,6 +250,8 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
         selectedSkill,
         addSkillPoint,
         removeSkillPoint,
+        points,
+        updatePoints,
       }}
     >
       {children}

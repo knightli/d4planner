@@ -1,6 +1,6 @@
 import { Rect, Circle } from "react-konva";
 import { ISkill, SkillsContextType } from "../../../@types/skills";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useSkills } from "../../../context/Skills";
 
 type Props = {
@@ -8,9 +8,14 @@ type Props = {
 };
 
 const SkillIcon: FC<Props> = ({ skill }) => {
-  const { addSkillPoint, removeSkillPoint } = useSkills() as SkillsContextType;
+  const { addSkillPoint, removeSkillPoint, updatePoints } =
+    useSkills() as SkillsContextType;
   const { points } = skill;
   const strokeColor = points && points > 0 ? "#ff0000" : "#F2C94C";
+
+  useEffect(() => {
+    updatePoints();
+  }, [skill]);
 
   const props = {
     width: 60,
@@ -36,7 +41,11 @@ const SkillIcon: FC<Props> = ({ skill }) => {
     },
   };
 
-  return skill.maxPoints! === 0 ? <Circle {...props} /> : <Rect {...props} />;
+  return skill.requiredPoints !== undefined ? (
+    <Circle {...props} />
+  ) : (
+    <Rect {...props} />
+  );
 };
 
 export { SkillIcon };

@@ -5,10 +5,20 @@ import { StageContextType } from "../../@types/stage";
 import { useStage } from "../../context/Stage";
 
 const Lines = () => {
-  const { skills } = useSkills() as SkillsContextType;
+  const { skills, points } = useSkills() as SkillsContextType;
   const { scale } = useStage() as StageContextType;
   const stageWidth = window.innerWidth;
   const stageHeight = window.innerHeight;
+
+  const lineColor = (skill: ISkill): string => {
+    const basePoints = points > 0 && points >= skill.requiredPoints!;
+    return skill.points! > 0 || basePoints ? "#ff0000" : "#E14D2A";
+  };
+
+  const lineStroke = (skill: ISkill): number => {
+    const basePoints = points > 0 && points >= skill.requiredPoints!;
+    return skill.points! > 0 || basePoints ? 6 : 3;
+  };
 
   return (
     <Group
@@ -26,8 +36,8 @@ const Lines = () => {
                   <Line
                     key={`line_${index}_${skill.id}`}
                     id={`line_${index}_${skill.id}`}
-                    stroke={skill.points! > 0 ? "#ff0000" : "#E14D2A"}
-                    strokeWidth={skill.points! > 0 ? 6 : 3}
+                    stroke={lineColor(skill)}
+                    strokeWidth={lineStroke(skill)}
                     lineCap="round"
                     lineJoin="round"
                     points={line.coords}
