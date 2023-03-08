@@ -64,13 +64,15 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
       const lines = skill.connections?.map((connectionId) => {
         const connection = skills.find((s) => s.id === connectionId);
         if (connection) {
-          const passiveSkillConnection = connection.damageType === undefined;
+          const passiveSkillConnection =
+            connection.damageType === undefined &&
+            skill.requiredPoints! === undefined;
 
           if (skill.requiredPoints! !== undefined) {
-            const x1 = skill.x;
-            const y1 = skill.y;
-            const x2 = connection.x;
-            const y2 = connection.y;
+            const x1 = skill.x + 60;
+            const y1 = skill.y + 60;
+            const x2 = connection.x + 60;
+            const y2 = connection.y + 60;
             return { coords: [x1, y1, x2, y2], id: connectionId };
           }
 
@@ -78,11 +80,11 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
           const y1 = skill.y + Y1_OFFSET;
           const x2 =
             connection.requiredPoints! !== undefined
-              ? connection.x
+              ? connection.x + (passiveSkillConnection ? 60 : X2_OFFSET)
               : connection.x + (passiveSkillConnection ? 0 : X2_OFFSET);
           const y2 =
             connection.requiredPoints! !== undefined
-              ? connection.y
+              ? connection.y + (passiveSkillConnection ? 60 : X2_OFFSET)
               : connection.y + Y2_OFFSET;
           return { coords: [x1, y1, x2, y2], id: connectionId };
         }

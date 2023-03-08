@@ -1,7 +1,8 @@
-import { Rect, Circle } from "react-konva";
+import { Rect, Circle, Image } from "react-konva";
 import { ISkill, SkillsContextType } from "../../../@types/skills";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useSkills } from "../../../context/Skills";
+import useImage from "use-image";
 
 type Props = {
   skill: ISkill;
@@ -19,6 +20,15 @@ const SkillIcon: FC<Props> = ({ skill }) => {
 
   const passiveSkill = skill.damageType === undefined;
 
+  const loadSkillImage = (name: string) => {
+    if (!passiveSkill || skill.requiredPoints !== undefined) {
+      const [image] = useImage(
+        `/skills/${name?.toLowerCase().replace(/\s/g, "")}.png`
+      );
+      return image;
+    }
+  };
+
   const props = {
     width: passiveSkill ? 40 : 60,
     height: passiveSkill ? 40 : 60,
@@ -27,7 +37,6 @@ const SkillIcon: FC<Props> = ({ skill }) => {
     strokeWidth: 4,
     shadowForStrokeEnabled: false,
     perfectDrawEnabled: false,
-    radius: 40,
     rotation: passiveSkill ? 45 : 0,
     onClick: (e: any) => {
       if (e.evt.button === 0) {
@@ -45,9 +54,17 @@ const SkillIcon: FC<Props> = ({ skill }) => {
   };
 
   return skill.requiredPoints !== undefined ? (
-    <Circle {...props} />
+    <Image
+      {...props}
+      width={120}
+      height={120}
+      rotation={0}
+      image={loadSkillImage("baseskill")}
+      fill="transparent"
+      strokeWidth={0}
+    />
   ) : (
-    <Rect {...props} />
+    <Image {...props} image={loadSkillImage(skill.name!)} />
   );
 };
 

@@ -16,13 +16,14 @@ const LinkSkill = memo<LinkSkillProps>(({ image, stage, skill }) => {
   if (!image) return null;
 
   const passiveSkill = skill.damageType === undefined;
+  const baseSkill = skill.requiredPoints !== undefined;
 
   return (
     <Image
       image={image}
       width={15}
       height={15}
-      x={passiveSkill ? 40 : 70}
+      x={baseSkill ? 120 : passiveSkill ? 40 : 70}
       y={-2}
       shadowBlur={5}
       shadowOffsetX={2}
