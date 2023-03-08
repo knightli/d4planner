@@ -1,10 +1,10 @@
 import { memo } from "react";
 import { Image } from "react-konva";
-import { SkillsContextType } from "../../../@types/skills";
+import { ISkill, SkillsContextType } from "../../../@types/skills";
 import { useSkills } from "../../../context/Skills";
 
 type TrashProps = {
-  skill: any;
+  skill: ISkill;
   stage: any;
   image: HTMLImageElement | null;
 };
@@ -15,12 +15,14 @@ const Trash = memo<TrashProps>((props) => {
 
   if (!image) return null;
 
+  const passiveSkill = skill.damageType === undefined;
+
   return (
     <Image
       image={image}
       width={15}
       height={15}
-      x={70}
+      x={passiveSkill ? 40 : 70}
       y={25}
       shadowBlur={5}
       shadowOffsetX={2}

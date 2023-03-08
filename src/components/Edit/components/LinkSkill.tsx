@@ -1,10 +1,10 @@
 import { memo } from "react";
 import { Image } from "react-konva";
 import { useSkills } from "../../../context/Skills";
-import { SkillsContextType } from "../../../@types/skills";
+import { ISkill, SkillsContextType } from "../../../@types/skills";
 
 type LinkSkillProps = {
-  skill: any;
+  skill: ISkill;
   stage: any;
   image: HTMLImageElement | null;
 };
@@ -15,12 +15,14 @@ const LinkSkill = memo<LinkSkillProps>(({ image, stage, skill }) => {
 
   if (!image) return null;
 
+  const passiveSkill = skill.damageType === undefined;
+
   return (
     <Image
       image={image}
       width={15}
       height={15}
-      x={70}
+      x={passiveSkill ? 40 : 70}
       y={-2}
       shadowBlur={5}
       shadowOffsetX={2}

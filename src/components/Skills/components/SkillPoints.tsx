@@ -8,7 +8,12 @@ export type skillPointsType = {
 
 const SkillPoints: FC<skillPointsType> = (props) => {
   const { skill } = props;
-  if (skill.maxPoints === undefined || skill.maxPoints <= 0) return null;
+  if (
+    skill.maxPoints === undefined ||
+    skill.maxPoints <= 0 ||
+    skill.damageType === undefined
+  )
+    return null;
 
   return (
     <Text

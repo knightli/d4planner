@@ -10,6 +10,23 @@ const SkillToolTip = (props: skillToolTipType) => {
 
   if (skill === null || skill.description === "") return null;
 
+  const descriptionBuilder = (description?: string, values?: string[]) => {
+    if (!description || !values) {
+      return description;
+    }
+
+    return description.replace(/{#}/g, () => {
+      const shallowValues = [...values];
+      const value = shallowValues.shift();
+      return value ? value : "{#}";
+    });
+  };
+
+  const formattedDescription = descriptionBuilder(
+    skill.description,
+    skill.values
+  );
+
   return (
     <Label x={skill.x + 70} y={skill.y + 30} opacity={0.75}>
       <Tag
@@ -25,7 +42,7 @@ const SkillToolTip = (props: skillToolTipType) => {
         perfectDrawEnabled={false}
       />
       <Text
-        text={`${skill.name}\n${skill.description}`}
+        text={`${skill.name}\n${formattedDescription}`}
         width={300}
         fontSize={14}
         fill={"#DCB166"}

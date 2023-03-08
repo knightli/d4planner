@@ -19,6 +19,7 @@ export interface ISkill {
   y: number;
   connections?: string[];
   lines?: ISkillLine[];
+  values?: string[];
 }
 
 export type SkillsContextType = {

@@ -7,8 +7,8 @@ type Props = {
 };
 
 const SkillName: FC<Props> = ({ skill }) => {
-  const x = skill.maxPoints === 0 ? -15 : 0;
-  const y = skill.maxPoints === 0 ? -10 : 70;
+  const x = skill.requiredPoints !== undefined ? -15 : 0;
+  const y = skill.requiredPoints !== undefined ? -10 : 70;
 
   return (
     <Text

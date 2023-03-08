@@ -17,15 +17,18 @@ const SkillIcon: FC<Props> = ({ skill }) => {
     updatePoints();
   }, [skill]);
 
+  const passiveSkill = skill.damageType === undefined;
+
   const props = {
-    width: 60,
-    height: 60,
+    width: passiveSkill ? 40 : 60,
+    height: passiveSkill ? 40 : 60,
     fill: "#474E68",
     stroke: strokeColor,
     strokeWidth: 4,
     shadowForStrokeEnabled: false,
     perfectDrawEnabled: false,
-    radius: 60,
+    radius: 40,
+    rotation: passiveSkill ? 45 : 0,
     onClick: (e: any) => {
       if (e.evt.button === 0) {
         if (skill.maxPoints !== 0) {
