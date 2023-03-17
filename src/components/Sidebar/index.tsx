@@ -3,7 +3,8 @@ import { ISkill, SkillsContextType } from "../../@types/skills";
 import { useSkills } from "../../context/Skills";
 
 const SideBar = () => {
-  const { editSkill, updateSkill } = useSkills() as SkillsContextType;
+  const { editSkill, updateSkill, handleEditSkill } =
+    useSkills() as SkillsContextType;
 
   const [name, setName] = useState("");
   const [maxPoints, setMaxPoints] = useState(0);
@@ -23,7 +24,12 @@ const SideBar = () => {
         description,
       };
       updateSkill(savedSkill);
+      handleEditSkill(null);
     }
+  };
+
+  const onClose = () => {
+    handleEditSkill(null);
   };
 
   useEffect(() => {
@@ -48,6 +54,18 @@ const SideBar = () => {
           padding: 20,
         }}
       >
+        <span
+          style={{
+            position: "absolute",
+            right: 20,
+            top: 20,
+            cursor: "pointer",
+            fontSize: "24px",
+          }}
+          onClick={onClose}
+        >
+          X
+        </span>
         <h2>Edit: {editSkill.name}</h2>
         <form onSubmit={onSubmit}>
           <label>Name</label>
@@ -100,21 +118,46 @@ const SideBar = () => {
             value={description}
           />
 
-          <button
+          <div
             style={{
-              outline: 0,
-              background: "none",
-              margin: "20px 0",
-              padding: 10,
-              color: "#ffffff",
-              cursor: "pointer",
-              borderRadius: 6,
-              border: "1px solid #2ECC71",
+              display: "flex",
             }}
-            type="submit"
           >
-            Save
-          </button>
+            <button
+              style={{
+                outline: 0,
+                background: "none",
+                margin: "20px 0",
+                padding: 10,
+                color: "#ffffff",
+                cursor: "pointer",
+                borderRadius: 6,
+                border: "1px solid #2ECC71",
+                width: "50%",
+              }}
+              type="submit"
+            >
+              Save
+            </button>
+            <button
+              style={{
+                outline: 0,
+                background: "none",
+                margin: "20px 0",
+                padding: 10,
+                color: "#ffffff",
+                cursor: "pointer",
+                borderRadius: 6,
+                border: "1px solid #666666",
+                marginLeft: "20px",
+                width: "50%",
+              }}
+              type="button"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+          </div>
           <input
             name="id"
             type="hidden"

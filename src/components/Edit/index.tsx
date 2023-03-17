@@ -6,6 +6,8 @@ import { useRef, useMemo } from "react";
 import { Trash } from "./components/Trash";
 import { LinkSkill } from "./components/LinkSkill";
 import { EditSkill } from "./components/EditSkill";
+import { useAccess } from "../../context/Access";
+import { AccessContextType } from "../../@types/access";
 
 type EditProps = {
   skill: ISkill;
@@ -19,6 +21,8 @@ export type IconProps = {
 const Edit = (props: EditProps) => {
   const { skill, stage } = props;
   const { selectedSkill } = useSkills() as SkillsContextType;
+  const { isAdmin } = useAccess() as AccessContextType;
+
   const linkIconRef = useRef<HTMLImageElement | null>(null);
   const trashIconRef = useRef<HTMLImageElement | null>(null);
   const editIconRef = useRef<HTMLImageElement | null>(null);
@@ -38,13 +42,17 @@ const Edit = (props: EditProps) => {
   const [editSkillImage] = useImage(`/icons/edit.png`);
   if (editSkillImage) editIconRef.current = editSkillImage;
 
-  return (
-    <Group key={`edit-skill-${skill.id}`}>
-      <LinkSkill image={linkIconRef.current} skill={skill} stage={stage} />
-      <Trash image={trashIconRef.current} skill={skill} stage={stage} />
-      <EditSkill image={editIconRef.current} skill={skill} stage={stage} />
-    </Group>
-  );
+  if (isAdmin) {
+    return (
+      <Group key={`edit-skill-${skill.id}`}>
+        <LinkSkill image={linkIconRef.current} skill={skill} stage={stage} />
+        <Trash image={trashIconRef.current} skill={skill} stage={stage} />
+        <EditSkill image={editIconRef.current} skill={skill} stage={stage} />
+      </Group>
+    );
+  }
+
+  return null;
 };
 
 export { Edit };

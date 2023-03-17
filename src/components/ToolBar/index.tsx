@@ -17,10 +17,13 @@ import {
 import { ClassContextType } from "../../@types/class";
 import { useClass } from "../../context/Class";
 import { cleanHashUrl } from "../../helpers/url";
+import { useAccess } from "../../context/Access";
+import { AccessContextType } from "../../@types/access";
 
 const ToolBar = () => {
   const { addSkill, skills } = useSkills() as SkillsContextType;
   const { setClassName, className } = useClass() as ClassContextType;
+  const { isAdmin } = useAccess() as AccessContextType;
   const [modal, setModal] = useState(false);
 
   const handleModalSkill = () => {
@@ -75,6 +78,26 @@ const ToolBar = () => {
     );
   };
 
+  const addSkillButton = () => {
+    return (
+      isAdmin && (
+        <button style={buttonStyle} onClick={handleModalSkill}>
+          Add Skill
+        </button>
+      )
+    );
+  };
+
+  const saveTreeButton = () => {
+    return (
+      isAdmin && (
+        <button style={buttonStyleSave} onClick={handleSaveTree}>
+          Save Tree
+        </button>
+      )
+    );
+  };
+
   return (
     <div
       style={{
@@ -95,12 +118,8 @@ const ToolBar = () => {
           display: "flex",
         }}
       >
-        <button style={buttonStyle} onClick={handleModalSkill}>
-          Add Skill
-        </button>
-        <button style={buttonStyleSave} onClick={handleSaveTree}>
-          Save Tree
-        </button>
+        {addSkillButton()}
+        {saveTreeButton()}
         <button style={buttonStyleSave} onClick={handleShareTree}>
           Share Tree
         </button>

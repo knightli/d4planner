@@ -32,7 +32,7 @@ export type SkillsContextType = {
   updateSkill: (skill: ISkill) => void;
   addLinkSkill: (selectedSkillId: string, id: string) => void;
   handleSelectSkill: (skill: ISkill) => void;
-  handleEditSkill: (skill: ISkill) => void;
+  handleEditSkill: (skill: ISkill | null) => void;
   selectedSkill: ISkill | null;
   addSkillPoint: (id: string) => void;
   removeSkillPoint: (id: string) => void;

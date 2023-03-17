@@ -160,7 +160,7 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     setSelectedSkill(skill);
   };
 
-  const handleEditSkill = (skill: ISkill) => {
+  const handleEditSkill = (skill: ISkill | null) => {
     setEditSkill(skill);
   };
 
