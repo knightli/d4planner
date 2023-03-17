@@ -12,6 +12,7 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
   const [points, setPoints] = useState<number>(0);
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [selectedSkill, setSelectedSkill] = useState<ISkill | null>(null);
+  const [editSkill, setEditSkill] = useState<ISkill | null>(null);
 
   const updateSkillPosition = ({ id, x, y }: ISkill) => {
     const updatedSkills = skills.map((skill) => {
@@ -50,6 +51,17 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
       values,
     };
     setSkills([...skills, skill]);
+  };
+
+  const updateSkill = (updatedSkill: ISkill) => {
+    const updatedSkills = skills.map((skill) => {
+      if (skill.id === updatedSkill.id) {
+        return updatedSkill;
+      }
+      return skill;
+    });
+
+    setSkills(updatedSkills);
   };
 
   const updateLines = (skills: ISkill[]): ISkill[] => {
@@ -146,6 +158,10 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
 
   const handleSelectSkill = (skill: ISkill) => {
     setSelectedSkill(skill);
+  };
+
+  const handleEditSkill = (skill: ISkill) => {
+    setEditSkill(skill);
   };
 
   const addSkillPoint = (id: string) => {
@@ -260,6 +276,9 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
         removeSkillPoint,
         points,
         updatePoints,
+        updateSkill,
+        handleEditSkill,
+        editSkill,
       }}
     >
       {children}

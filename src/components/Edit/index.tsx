@@ -5,6 +5,7 @@ import useImage from "use-image";
 import { useRef, useMemo } from "react";
 import { Trash } from "./components/Trash";
 import { LinkSkill } from "./components/LinkSkill";
+import { EditSkill } from "./components/EditSkill";
 
 type EditProps = {
   skill: ISkill;
@@ -20,6 +21,7 @@ const Edit = (props: EditProps) => {
   const { selectedSkill } = useSkills() as SkillsContextType;
   const linkIconRef = useRef<HTMLImageElement | null>(null);
   const trashIconRef = useRef<HTMLImageElement | null>(null);
+  const editIconRef = useRef<HTMLImageElement | null>(null);
 
   const imageName = useMemo(() => {
     return selectedSkill && selectedSkill.id !== skill.id
@@ -30,13 +32,17 @@ const Edit = (props: EditProps) => {
   const [linkImage] = useImage(`/icons/${imageName}`);
   if (linkImage) linkIconRef.current = linkImage;
 
-  const [trashImageimage] = useImage(`/icons/trash.png`);
-  if (trashImageimage) trashIconRef.current = trashImageimage;
+  const [trashImage] = useImage(`/icons/trash.png`);
+  if (trashImage) trashIconRef.current = trashImage;
+
+  const [editSkillImage] = useImage(`/icons/edit.png`);
+  if (editSkillImage) editIconRef.current = editSkillImage;
 
   return (
     <Group key={`edit-skill-${skill.id}`}>
       <LinkSkill image={linkIconRef.current} skill={skill} stage={stage} />
       <Trash image={trashIconRef.current} skill={skill} stage={stage} />
+      <EditSkill image={editIconRef.current} skill={skill} stage={stage} />
     </Group>
   );
 };

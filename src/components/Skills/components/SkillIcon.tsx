@@ -1,6 +1,6 @@
-import { Rect, Circle, Image } from "react-konva";
+import { Rect, Image } from "react-konva";
 import { ISkill, SkillsContextType } from "../../../@types/skills";
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect } from "react";
 import { useSkills } from "../../../context/Skills";
 import useImage from "use-image";
 
@@ -18,26 +18,26 @@ const SkillIcon: FC<Props> = ({ skill }) => {
     updatePoints();
   }, [skill]);
 
-  const passiveSkill = skill.damageType === undefined;
+  const passiveSkill =
+    skill.damageType === undefined && skill.requiredPoints === undefined;
 
   const loadSkillImage = (name: string) => {
-    if (!passiveSkill || skill.requiredPoints !== undefined) {
-      const [image] = useImage(
-        `/skills/${name?.toLowerCase().replace(/\s/g, "")}.png`
-      );
-      return image;
-    }
+    const iconFilename = skill?.icon ? skill.icon : name;
+    const [image] = useImage(
+      `/skills/${iconFilename.toLowerCase().replace(/\s/g, "")}.png`
+    );
+    return image;
   };
 
   const props = {
-    width: passiveSkill ? 40 : 60,
-    height: passiveSkill ? 40 : 60,
-    fill: "#474E68",
+    width: 60,
+    height: 60,
+    fill: "transparent",
     stroke: strokeColor,
-    strokeWidth: 4,
+    strokeWidth: 0,
     shadowForStrokeEnabled: false,
     perfectDrawEnabled: false,
-    rotation: passiveSkill ? 45 : 0,
+    rotation: 0,
     onClick: (e: any) => {
       if (e.evt.button === 0) {
         if (skill.maxPoints !== 0) {
@@ -53,18 +53,34 @@ const SkillIcon: FC<Props> = ({ skill }) => {
     },
   };
 
-  return skill.requiredPoints !== undefined ? (
-    <Image
-      {...props}
-      width={120}
-      height={120}
-      rotation={0}
-      image={loadSkillImage("baseskill")}
-      fill="transparent"
-      strokeWidth={0}
-    />
-  ) : (
-    <Image {...props} image={loadSkillImage(skill.name!)} />
+  if (skill.requiredPoints !== undefined) {
+    return (
+      <Image
+        {...props}
+        width={120}
+        height={120}
+        rotation={0}
+        image={loadSkillImage("baseskill")}
+        fill="transparent"
+        strokeWidth={0}
+      />
+    );
+  }
+
+  if (passiveSkill) {
+    return (
+      <>
+        <Rect {...props} rotation={45} strokeWidth={4} width={45} height={45} />
+        <Image {...props} image={loadSkillImage(skill.name!)} x={-30} y={2} />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Rect {...props} strokeWidth={4} />
+      <Image {...props} image={loadSkillImage(skill.name!)} />
+    </>
   );
 };
 

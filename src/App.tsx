@@ -4,6 +4,7 @@ import { ToolBar } from "./components/ToolBar";
 import { StageProvider } from "./context/Stage";
 import { ClassProvider } from "./context/Class";
 import "./App.css";
+import { SideBar } from "./components/Sidebar";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
             <Skills />
           </StageProvider>
           <ToolBar />
+          <SideBar />
         </SkillsProvider>
       </ClassProvider>
     </div>

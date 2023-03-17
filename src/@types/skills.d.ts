@@ -20,6 +20,7 @@ export interface ISkill {
   connections?: string[];
   lines?: ISkillLine[];
   values?: string[];
+  icon?: string;
 }
 
 export type SkillsContextType = {
@@ -28,13 +29,16 @@ export type SkillsContextType = {
   addSkill: ({ id, connections }: ISkill) => void;
   loadSkills: (skills: ISkill[], sharedSkills?: SharedSkills[]) => void;
   removeSkill: (id: string) => void;
+  updateSkill: (skill: ISkill) => void;
   addLinkSkill: (selectedSkillId: string, id: string) => void;
   handleSelectSkill: (skill: ISkill) => void;
+  handleEditSkill: (skill: ISkill) => void;
   selectedSkill: ISkill | null;
   addSkillPoint: (id: string) => void;
   removeSkillPoint: (id: string) => void;
   points: number;
   updatePoints: () => void;
+  editSkill: ISkill | null;
 };
 
 export type SharedSkills = {

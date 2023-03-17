@@ -3,15 +3,15 @@ import { Image } from "react-konva";
 import { ISkill, SkillsContextType } from "../../../@types/skills";
 import { useSkills } from "../../../context/Skills";
 
-type TrashProps = {
+type EditSkillProps = {
   skill: ISkill;
   stage: any;
   image: HTMLImageElement | null;
 };
 
-const Trash = memo<TrashProps>((props) => {
+const EditSkill = memo<EditSkillProps>((props) => {
   const { image, stage, skill } = props;
-  const { removeSkill } = useSkills() as SkillsContextType;
+  const { handleEditSkill } = useSkills() as SkillsContextType;
 
   if (!image) return null;
 
@@ -24,7 +24,7 @@ const Trash = memo<TrashProps>((props) => {
       width={15}
       height={15}
       x={baseSkill ? 120 : passiveSkill ? 40 : 70}
-      y={55}
+      y={25}
       shadowBlur={5}
       shadowOffsetX={2}
       shadowOffsetY={2}
@@ -37,10 +37,10 @@ const Trash = memo<TrashProps>((props) => {
         stage.current.container().style.cursor = "default";
       }}
       onClick={() => {
-        removeSkill(skill.id);
+        handleEditSkill(skill);
       }}
     />
   );
 });
 
-export { Trash };
+export { EditSkill };
