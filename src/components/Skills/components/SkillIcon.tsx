@@ -12,7 +12,7 @@ const SkillIcon: FC<Props> = ({ skill }) => {
   const { addSkillPoint, removeSkillPoint, updatePoints } =
     useSkills() as SkillsContextType;
   const { points } = skill;
-  const strokeColor = points && points > 0 ? "#ff0000" : "#F2C94C";
+  const strokeColor = points && points > 0 ? "#820f0d" : "#3b3d3e";
 
   useEffect(() => {
     updatePoints();
@@ -70,15 +70,23 @@ const SkillIcon: FC<Props> = ({ skill }) => {
   if (passiveSkill) {
     return (
       <>
-        <Rect {...props} rotation={45} strokeWidth={4} width={45} height={45} />
-        <Image {...props} image={loadSkillImage(skill.name!)} x={-30} y={2} />
+        <Rect {...props} rotation={45} strokeWidth={7} width={45} height={45} />
+        <Image
+          {...props}
+          image={loadSkillImage(skill.name!)}
+          width={45}
+          rotation={45}
+          height={45}
+          x={0}
+          y={0}
+        />
       </>
     );
   }
 
   return (
     <>
-      <Rect {...props} strokeWidth={4} />
+      <Rect {...props} strokeWidth={10} />
       <Image {...props} image={loadSkillImage(skill.name!)} />
     </>
   );

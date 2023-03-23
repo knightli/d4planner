@@ -102,28 +102,23 @@ const ToolBar = () => {
     <div
       style={{
         position: "fixed",
-        top: 10,
-        left: 10,
-        background: "#222222",
+        display: "flex",
+        top: 0,
+        left: 0,
+        background: "rgba(36, 37, 38, 0.8)",
         color: "#f1f1f1",
         border: 0,
+        width: "100%",
       }}
     >
       <div
         style={{
-          background: "#444444",
           padding: 10,
-          borderRadius: 6,
+          borderRadius: 0,
           border: 0,
           display: "flex",
         }}
       >
-        {addSkillButton()}
-        {saveTreeButton()}
-        <button style={buttonStyleSave} onClick={handleShareTree}>
-          Share Tree
-        </button>
-        <hr style={{ border: "1px solid #333333" }}></hr>
         <button
           style={buttonStyleBaba}
           onClick={() => {
@@ -145,6 +140,13 @@ const ToolBar = () => {
         <button style={buttonStyleNecro}>Necromancer</button>
         <button style={buttonStyleRogue}>Rogue</button>
         <button style={buttonStyleSorcer}>Sorcer</button>
+
+        <hr style={{ border: "1px solid #333333" }}></hr>
+        {addSkillButton()}
+        {saveTreeButton()}
+        <button style={buttonStyleSave} onClick={handleShareTree}>
+          Share Tree
+        </button>
       </div>
       {modal && <AddSkillModal />}
     </div>

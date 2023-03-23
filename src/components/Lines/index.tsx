@@ -12,12 +12,12 @@ const Lines = () => {
 
   const lineColor = (skill: ISkill): string => {
     const basePoints = points > 0 && points >= skill.requiredPoints!;
-    return skill.points! > 0 || basePoints ? "#ff0000" : "#E14D2A";
+    return skill.points! > 0 || basePoints ? "#820f0d" : "#292a2a";
   };
 
   const lineStroke = (skill: ISkill): number => {
     const basePoints = points > 0 && points >= skill.requiredPoints!;
-    return skill.points! > 0 || basePoints ? 6 : 3;
+    return 10;
   };
 
   return (
@@ -42,8 +42,10 @@ const Lines = () => {
                     lineJoin="round"
                     points={line.coords}
                     tension={1}
-                    perfectDrawEnabled={false}
-                    shadowForStrokeEnabled={false}
+                    shadowColor={"#0f1110"}
+                    shadowBlur={5}
+                    shadowOffsetX={0}
+                    shadowOffsetY={0}
                   />
                 )
             )}

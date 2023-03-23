@@ -2,6 +2,8 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-image: url("/bgs/stage.jpg");
+  background-size: cover;
 }
 
 input[type="text"],

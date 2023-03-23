@@ -8,6 +8,8 @@ import { skillToolTipType } from "./SkillTooltip";
 import { SkillPoints } from "./SkillPoints";
 import { SkillIcon } from "./SkillIcon";
 import { SkillName } from "./SkillName";
+import { AccessContextType } from "../../../@types/access";
+import { useAccess } from "../../../context/Access";
 
 type Props = {
   skill: ISkill;
@@ -17,6 +19,7 @@ type Props = {
 const Skill = (props: Props) => {
   const { skill, toolTip } = props;
   const { stage } = useStage() as StageContextType;
+  const { isAdmin } = useAccess() as AccessContextType;
   const { updateSkillPosition } = useSkills() as SkillsContextType;
 
   const handleDragStart = (e: any) => {
@@ -35,7 +38,7 @@ const Skill = (props: Props) => {
           e.evt.preventDefault();
         }}
         id={skill.id}
-        draggable
+        draggable={isAdmin}
         onDragStart={(e) => {
           handleDragStart(e);
         }}

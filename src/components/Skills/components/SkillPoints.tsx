@@ -17,11 +17,16 @@ const SkillPoints: FC<skillPointsType> = (props) => {
 
   return (
     <Text
-      x={38}
-      y={45}
+      x={40}
+      y={50}
+      fontSize={18}
       text={`${skill.points?.toString()}/${skill.maxPoints?.toString()}`}
       fontStyle={"bold"}
-      fill={"#FD841F"}
+      fill={"#d5cfcd"}
+      shadowColor={"#000000"}
+      shadowBlur={2}
+      shadowOffsetX={2}
+      shadowOffsetY={1}
     />
   );
 };
