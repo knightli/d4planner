@@ -8,7 +8,7 @@ export type skillToolTipType = {
 const SkillToolTip = (props: skillToolTipType) => {
   const { skill } = props;
 
-  if (skill === null || skill.description === "") return null;
+  if (skill === null) return null;
 
   const descriptionBuilder = (description?: string, values?: string[]) => {
     if (!description || !values) {
@@ -27,7 +27,49 @@ const SkillToolTip = (props: skillToolTipType) => {
     skill.values
   );
 
-  const leftOffset = skill.damageType === undefined ? 40 : 70;
+  const leftOffset =
+    skill.requiredPoints !== undefined
+      ? 100
+      : skill.damageType === undefined
+      ? 40
+      : 70;
+
+  const buildText = () => {
+    if (skill.description === "") {
+      return (
+        <Text
+          text={`${skill.name}`}
+          fontSize={14}
+          fill={"#DCB166"}
+          shadowColor="black"
+          shadowBlur={5}
+          shadowOffsetX={2}
+          shadowOffsetY={2}
+          shadowForStrokeEnabled={false}
+          perfectDrawEnabled={false}
+          padding={10}
+          lineHeight={1.5}
+        />
+      );
+    }
+
+    return (
+      <Text
+        text={`${skill.name}\n${formattedDescription}`}
+        width={300}
+        fontSize={14}
+        fill={"#DCB166"}
+        shadowColor="black"
+        shadowBlur={5}
+        shadowOffsetX={2}
+        shadowOffsetY={2}
+        shadowForStrokeEnabled={false}
+        perfectDrawEnabled={false}
+        padding={10}
+        lineHeight={1.5}
+      />
+    );
+  };
 
   return (
     <Label x={skill.x + leftOffset} y={skill.y + 30}>
@@ -43,20 +85,7 @@ const SkillToolTip = (props: skillToolTipType) => {
         shadowForStrokeEnabled={false}
         perfectDrawEnabled={false}
       />
-      <Text
-        text={`${skill.name}\n${formattedDescription}`}
-        width={300}
-        fontSize={14}
-        fill={"#DCB166"}
-        shadowColor="black"
-        shadowBlur={5}
-        shadowOffsetX={2}
-        shadowOffsetY={2}
-        shadowForStrokeEnabled={false}
-        perfectDrawEnabled={false}
-        padding={10}
-        lineHeight={1.5}
-      />
+      {buildText()}
     </Label>
   );
 };
