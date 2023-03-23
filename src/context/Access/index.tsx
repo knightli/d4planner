@@ -4,7 +4,7 @@ import { AccessContextType, IAccessProvider } from "../../@types/access";
 const AccessContext = createContext<AccessContextType | null>(null);
 
 const AccessProvider: FC<IAccessProvider> = ({ children }) => {
-  const isAdmin = false;
+  const isAdmin = true;
 
   return (
     <AccessContext.Provider value={{ isAdmin }}>
