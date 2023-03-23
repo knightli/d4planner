@@ -15,7 +15,7 @@ const Trash = memo<TrashProps>((props) => {
 
   if (!image) return null;
 
-  const passiveSkill = skill.damageType === undefined;
+  const passiveSkill = skill.damageType === undefined && skill.maxPoints === 1;
   const baseSkill = skill.requiredPoints !== undefined;
 
   return (

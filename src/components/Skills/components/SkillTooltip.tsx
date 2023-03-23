@@ -30,9 +30,9 @@ const SkillToolTip = (props: skillToolTipType) => {
   const leftOffset = skill.damageType === undefined ? 40 : 70;
 
   return (
-    <Label x={skill.x + leftOffset} y={skill.y + 30} opacity={0.75}>
+    <Label x={skill.x + leftOffset} y={skill.y + 30}>
       <Tag
-        fill="#474E68"
+        fill="rgba(36, 37, 38, 0.8)"
         pointerDirection="left"
         pointerWidth={20}
         pointerHeight={28}

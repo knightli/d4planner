@@ -71,14 +71,18 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
     let Y2_OFFSET = 30;
 
     skills.map((skill: ISkill) => {
-      const passiveSkill = skill.damageType === undefined;
+      const passiveSkill =
+        skill.damageType === undefined &&
+        skill.maxPoints! === 1 &&
+        skill.requiredPoints! === undefined;
 
       const lines = skill.connections?.map((connectionId) => {
         const connection = skills.find((s) => s.id === connectionId);
         if (connection) {
           const passiveSkillConnection =
             connection.damageType === undefined &&
-            skill.requiredPoints! === undefined;
+            connection.requiredPoints! === undefined &&
+            connection.maxPoints! === 1;
 
           if (skill.requiredPoints! !== undefined) {
             const x1 = skill.x + 60;
@@ -92,11 +96,11 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
           const y1 = skill.y + Y1_OFFSET;
           const x2 =
             connection.requiredPoints! !== undefined
-              ? connection.x + (passiveSkillConnection ? 60 : X2_OFFSET)
+              ? connection.x + (passiveSkillConnection ? 60 : 60)
               : connection.x + (passiveSkillConnection ? 0 : X2_OFFSET);
           const y2 =
             connection.requiredPoints! !== undefined
-              ? connection.y + (passiveSkillConnection ? 60 : X2_OFFSET)
+              ? connection.y + (passiveSkillConnection ? 60 : 60)
               : connection.y + Y2_OFFSET;
           return { coords: [x1, y1, x2, y2], id: connectionId };
         }
@@ -171,10 +175,11 @@ const SkillsProvider: FC<ISkillProvider> = ({ children }) => {
           const allowed = skill.connections?.every((connectionId) => {
             const connection = skills.find((s) => s.id === connectionId);
             if (connection) {
-              return (
-                connection.requiredPoints !== undefined ||
-                connection.points! > 0
-              );
+              if (connection.requiredPoints !== undefined) {
+                return points >= connection.requiredPoints;
+              } else {
+                return connection.points! > 0;
+              }
             }
             return false;
           });

@@ -19,7 +19,9 @@ const SkillIcon: FC<Props> = ({ skill }) => {
   }, [skill]);
 
   const passiveSkill =
-    skill.damageType === undefined && skill.requiredPoints === undefined;
+    skill.damageType === undefined &&
+    skill.requiredPoints === undefined &&
+    skill.maxPoints! <= 1;
 
   const loadSkillImage = (name: string) => {
     const iconFilename = skill?.icon ? skill.icon : name;
@@ -47,7 +49,7 @@ const SkillIcon: FC<Props> = ({ skill }) => {
     },
     onContextMenu: (e: any) => {
       e.evt.preventDefault();
-      if (skill.maxPoints !== 0) {
+      if (skill.maxPoints !== 0 && skill.requiredPoints === undefined) {
         removeSkillPoint(skill.id);
       }
     },

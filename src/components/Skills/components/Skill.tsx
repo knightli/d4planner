@@ -64,7 +64,6 @@ const Skill = (props: Props) => {
           <SkillIcon skill={skill} />
           <SkillPoints skill={skill} />
         </Group>
-        {skill.requiredPoints !== undefined && <SkillName skill={skill} />}
         <Edit skill={skill} stage={stage} />
       </Group>
     </Group>
