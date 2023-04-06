@@ -9,6 +9,11 @@
 
 **Admin Mode**
 
+- Add Skills
+- Edit Skill
+- Delete Skill
+- Link Skills
+
 ![image](https://user-images.githubusercontent.com/19291876/230258434-5d02763b-604b-496e-bda0-b0b335875b43.png)
 
 **Adding Skill**
