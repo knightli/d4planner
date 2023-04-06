@@ -9,7 +9,7 @@
 
 ## Admin Mode
 
-**Features: **
+**Features:**
 
 - Add Skills
 - Edit Skill
