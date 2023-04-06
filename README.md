@@ -10,3 +10,15 @@
 **Admin Mode**
 
 ![image](https://user-images.githubusercontent.com/19291876/230258434-5d02763b-604b-496e-bda0-b0b335875b43.png)
+
+**Adding Skill**
+
+![image](https://user-images.githubusercontent.com/19291876/230259046-f16ebd2f-bb4a-4fca-b0ac-ce6e50b48e89.png)
+
+**Edit Skill** 
+
+![image](https://user-images.githubusercontent.com/19291876/230259085-b3a16b84-f0a6-40f8-b7d4-9363f9c4a277.png)
+
+Link Skill with another Skill
+
+![image](https://user-images.githubusercontent.com/19291876/230259227-e2766209-ff23-41b7-bbb2-e23dd71b6eea.png)
