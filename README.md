@@ -1,6 +1,18 @@
 # Diablo 4 Planner
 
+## Localhost configuration
 
+Requirements:
+
+- Latest Node Version with NPM
+
+```
+npm i
+npm run dev
+```
+
+
+## User Mode
 
 ![image](https://user-images.githubusercontent.com/19291876/230258197-66c99f2e-7516-4c27-8fd4-a131fb6916b4.png)
 
